@@ -1,0 +1,37 @@
+.ag-countrymask.iti{
+    width: 100%;
+    margin-bottom: 15px;
+}
+.promo__nav{
+    display: none;
+}
+.is-incart .btn{
+    background: #294195;
+    border-color: #294195;
+    color: #fff;
+}
+#sender_subscribe_component{
+    padding: 0;
+    border-radius: 10px;
+}
+
+#sender_subscribe_component > div{
+    border-radius: 10px;
+}
+.industry__slide{
+    max-height: 700px;
+}
+
+
+@media screen and (max-width: 991px){
+    .pseudo-promo{
+        height: 475px;
+    }
+
+}
+@media screen and (max-width: 767px){
+    .pseudo-promo{
+        height: 385px;
+    }
+
+}

@@ -1,0 +1,14 @@
+.search-form__input{
+    border-radius: 2.5rem;
+    height: 1.9rem;
+}
+
+.search-form__button{
+    width: 1.9rem!important;
+    height: 1.9rem!important;
+}
+
+.search-form__button .icon-svg{
+    width: 1rem!important;
+    height: 1rem!important;
+}

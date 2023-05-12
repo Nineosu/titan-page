@@ -1,0 +1,130 @@
+$(document).ready(function (){
+    window.iter=0;
+    $(document).on('input','.city_change',function (){
+        window.iter++;
+        let my_iter=window.iter;
+        $.ajax({
+            url: '/ajax/getRegs.php',         /* Куда отправить запрос */
+            method: 'POST',             /* Метод запроса (post или get) */
+            dataType: 'html',          /* Тип данных в ответе (xml, json, script, html). */
+            data: {NAME: $(this).val()},     /* Данные передаваемые в массиве */
+            success: function(data){   /* функция которая будет выполнена после успешного запроса.  */
+                change_regs(data,my_iter)
+            }
+        });
+    })
+    $(document).on('submit','.search',function (e){
+        e.preventDefault();
+        window.iter++;
+        let my_iter=window.iter;
+        $.ajax({
+            url: '/ajax/getRegs.php',         /* Куда отправить запрос */
+            method: 'POST',             /* Метод запроса (post или get) */
+            dataType: 'html',          /* Тип данных в ответе (xml, json, script, html). */
+            data: {NAME: $(this).serialize()},     /* Данные передаваемые в массиве */
+            success: function(data){   /* функция которая будет выполнена после успешного запроса.  */
+                change_regs(data,my_iter)
+            }
+        });
+    })
+
+    function change_regs(data,iter){
+        if(window.iter==iter){
+            $('.modal-cities__tags').html(data);
+        }
+    }
+
+    $(document).on('click','.region_set_link',function (e){
+        e.preventDefault();
+        let id=$(this).data('id');
+        $.ajax({
+            url: '/ajax/setReg.php',         /* Куда отправить запрос */
+            method: 'POST',             /* Метод запроса (post или get) */
+            dataType: 'html',          /* Тип данных в ответе (xml, json, script, html). */
+            data: {ID: id},     /* Данные передаваемые в массиве */
+            success: function(data){   /* функция которая будет выполнена после успешного запроса.  */
+                // debugger;
+                RS.Location.change(id);
+                BX.onCustomEvent('rs.location_change');
+            }
+        });
+    })
+
+    BX.addCustomEvent('rs.location_change',BX.delegate(function (fontlist) {
+        location.href=location.href;
+    }))
+
+    $(document).on('submit','.reg_form',function (e){
+        e.preventDefault();
+        $.ajax({
+            url: '/ajax/reg.php',         /* Куда отправить запрос */
+            method: 'POST',             /* Метод запроса (post или get) */
+            dataType: 'html',          /* Тип данных в ответе (xml, json, script, html). */
+            data: $(this).serialize(),     /* Данные передаваемые в массиве */
+            success: function(data){   /* функция которая будет выполнена после успешного запроса.  */
+                json = JSON.parse(data);
+                if (json.status=='success'){
+                    location.href=location.href;
+                }
+                else{
+                    alert(json.error);
+                    grecaptcha.reset(window.recaptcha_reg);
+                }
+            }
+        });
+    })
+    $(document).on('submit','.auth_form',function (e){
+        e.preventDefault();
+        $.ajax({
+            url: '/ajax/auth.php',         /* Куда отправить запрос */
+            method: 'POST',             /* Метод запроса (post или get) */
+            dataType: 'html',          /* Тип данных в ответе (xml, json, script, html). */
+            data: $(this).serialize(),     /* Данные передаваемые в массиве */
+            success: function(data){   /* функция которая будет выполнена после успешного запроса.  */
+                debugger;
+                json = JSON.parse(data);
+                if (json.status=='success'){
+                    location.href=location.href;
+                }
+                else{
+                    alert(json.error);
+                }
+            }
+        });
+    })
+
+    $(".form:not(.not_ajax)").submit(function(e) { //Change
+        debugger;
+        var th = $(this);
+        $.ajax({
+            type: "POST",
+            url: "/ajax/quest.php", //Change
+            data: th.serialize()
+        }).done(function(data) {
+            let json=JSON.parse(data)
+            if(json.status=='success') {
+                $.fancybox.close(true);
+                $.fancybox.open(thanks);
+                setTimeout(function () {
+                    th.trigger("reset");
+                }, 1000);
+            }
+            else{
+                alert(json.error);
+
+                grecaptcha.reset(window.recaptcha_head);
+                grecaptcha.reset(window.recaptcha_footR);
+                grecaptcha.reset(window.recaptcha_footC);
+            }
+        });
+        return false;
+    });
+
+    $('input[data-mask]').each(function () {
+        var maskOptions = {
+            mask: this.getAttribute('data-mask')
+        };
+
+        var mask = new IMask(this, maskOptions);
+    });
+})

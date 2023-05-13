@@ -75,6 +75,39 @@ window.addEventListener('DOMContentLoaded', () => {
         },
     });
 
+    const bigImgModalSlider = new Swiper('.big-img__modal-slider', {
+        direction: 'horizontal',
+        loop: false,
+        slidesPerView: 1,
+
+        navigation: {
+            nextEl: '.big-img__modal-slider-next',
+            prevEl: '.big-img__modal-slider-prev',
+        },
+    });
+
+    const imagesGallerySlider = new Swiper('.images-gallery__modal-slider', {
+        direction: 'horizontal',
+        loop: false,
+        slidesPerView: 1,
+
+        navigation: {
+            nextEl: '.images-gallery__modal-slider-next',
+            prevEl: '.images-gallery__modal-slider-prev',
+        },
+    });
+
+    const userImageSlider = new Swiper('.user-image__modal-slider', {
+        direction: 'horizontal',
+        loop: false,
+        slidesPerView: 1,
+
+        navigation: {
+            nextEl: '.user-image__modal-slider-next',
+            prevEl: '.user-image__modal-slider-prev',
+        },
+    });
+
     // Switching big img
 
     const thumbsSlides =  document.querySelectorAll('.pictures__thumbs-slide'),
@@ -238,6 +271,12 @@ window.addEventListener('DOMContentLoaded', () => {
           questionModal = document.querySelector('.question__modal'),
           questionClose = questionModal.querySelector('.question__modal-close'),
           questionModalForm = questionModal.querySelector('.question__modal-form');
+
+    const basketFastBuyBtn = document.querySelectorAll('.basket__main-order'),
+          basketFastBuyModal = document.querySelector('.fast-buy__modal'),
+          basketFastBuyModalForm = basketFastBuyModal.querySelector('.fast-buy__modal-form'),
+          basketFastBuyModalClose = basketFastBuyModal.querySelector('.fast-buy__modal-close');
+
           
 
     const modalFunc = (modalBtns, modal, modalForm, modalClose, showClass, afterModal, afterModalClass) => {
@@ -267,6 +306,8 @@ window.addEventListener('DOMContentLoaded', () => {
     modalThanksClose.addEventListener('click', () => {
         modalThanks.classList.remove('flex-show');
     });
+
+    modalFunc(basketFastBuyBtn, basketFastBuyModal, basketFastBuyModalForm, basketFastBuyModalClose, 'block-show');
 
 
     // Modal rate 
@@ -389,6 +430,76 @@ window.addEventListener('DOMContentLoaded', () => {
             }, {});
             deliveryMapAdaptive.geoObjects.add(placemark);
         });
-        
     };
+
+    // Img modals
+
+    const modalUse = (modal, showClass, isOpen) => {
+        if (isOpen) {
+            modal.classList.add(showClass);
+            document.body.style.overflow = 'hidden';
+        } else {
+            modal.classList.remove(showClass);
+            document.body.style.overflow = '';
+        }
+    };
+
+
+    const bigImgContainer = document.querySelector('.card__pictures-big'),
+          bigImgModal = document.querySelector('.big-img__modal');
+
+    bigImgContainer.addEventListener('click', () => {
+        modalUse(bigImgModal, 'block-show', true);
+    });
+
+    bigImgModal.addEventListener('click', (e) => {
+        if (e.target === bigImgModal) {
+            modalUse(bigImgModal, 'block-show', false);
+        }
+    });
+
+    const imagesGallery = document.querySelectorAll('.reviews__photo-cards'),
+          imagesGalleryModal = document.querySelector('.images-gallery__modal');
+
+    imagesGallery.forEach(gallery => {
+
+        gallery.addEventListener('click', (e) => {
+            console.log(imagesGalleryModal);
+            if (e.target.classList.contains('reviews__photo-card')) {
+                modalUse(imagesGalleryModal, 'block-show', true);
+
+                imagesGallerySlider.slideTo(Number(e.target.getAttribute('data-count'))-1);
+            }
+        });
+    });
+
+    imagesGalleryModal.addEventListener('click', (e) => {
+        if (e.target === imagesGalleryModal) {
+        modalUse(imagesGalleryModal, 'block-show', false);
+        }
+    });
+
+
+    const userReviews = document.querySelectorAll('.product__review'),
+          userImagesModal = document.querySelector('.user-image__modal');
+
+    userReviews.forEach(review => {
+        const userImages = review.querySelector('.review__photos');
+
+        if (userImages) {
+            userImages.addEventListener('click', (e) => {
+                if (e.target.classList.contains('reviews__photo-card')) {
+                    modalUse(userImagesModal, 'block-show', true);
+        
+                    userImageSlider.slideTo(Number(e.target.getAttribute('data-count'))-1);
+                };
+            });
+        };
+    });
+
+    userImagesModal.addEventListener('click', (e) => {
+        if (e.target === userImagesModal) {
+        modalUse(userImagesModal, 'block-show', false);
+        }
+    });
 });

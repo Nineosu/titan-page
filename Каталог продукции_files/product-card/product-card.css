@@ -4,6 +4,7 @@ body {
 
 main.product-card {
     position: relative;
+    margin-top: -15px;
 }
 
 main.product-card button,
@@ -13,6 +14,10 @@ main.product-card a {
 main.product-card button:hover,
 main.product-card a:hover {
     opacity: .7;
+}
+
+.header__main {
+    padding: 7px 0;
 }
 
 .navigation__path-link,
@@ -39,7 +44,7 @@ main.product-card a:hover {
     display: flex;
     justify-content: space-between;
     gap: 45px;
-    padding: 55px 0;
+    padding: 15px 0;
 }
 
 .card__pictures-top {
@@ -579,7 +584,6 @@ main.product-card a:hover {
 }
 .punct-selected {
     border-bottom: 1px solid #F0D800;
-    border-radius: 5px;
 }
 
 .desc__block-title {

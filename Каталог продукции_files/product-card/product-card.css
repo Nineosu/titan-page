@@ -4,7 +4,6 @@ body {
 
 main.product-card {
     position: relative;
-    margin-top: -15px;
 }
 
 main.product-card button,
@@ -17,7 +16,7 @@ main.product-card a:hover {
 }
 
 .header__main {
-    padding: 7px 0;
+    padding: 15px 0;
 }
 
 .navigation__path-link,
